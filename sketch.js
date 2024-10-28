@@ -18,6 +18,43 @@ let themeCouleur = [
   "#FF9800",
   "#FF5722",
 ];
+
+let confettis;
+
+function setup() {
+  let myCanvas = createCanvas(windowWidth, windowHeight);
+  myCanvas.parent("#my-p5-sketch");
+  frameRate(60);
+  ancienne = createVector(0, 0);
+  nouvelle = createVector(0, 0);
+  confettis = new SystemeDeParticules(500, createVector(width / 2, -20));
+}
+
+function draw() {
+  background(color("#fff"));
+  nouvelle.x = mouseX;
+  nouvelle.y = mouseY;
+  confettis.rendu();
+  ancienne.x = nouvelle.x;
+  ancienne.y = nouvelle.y;
+}
+
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight);
+  confettis.position = createVector(width / 2, -40);
+}
+
+function mousePressed() {
+  next = 0;
+  pression = true;
+}
+
+function mouseReleased() {
+  pression = false;
+  confettis.gravite.y = 0.1;
+  confettis.gravite.x = 0;
+}
+
 class Particule {
   constructor(parent) {
     this.parent = parent;
@@ -103,39 +140,4 @@ class SystemeDeParticules {
 
     this.particules.forEach((particules) => particules.rendu());
   }
-}
-let confettis;
-
-function setup() {
-  let myCanvas = createCanvas(windowWidth, windowHeight);
-  myCanvas.parent("#my-p5-sketch");
-  frameRate(60);
-  ancienne = createVector(0, 0);
-  nouvelle = createVector(0, 0);
-  confettis = new SystemeDeParticules(500, createVector(width / 2, -20));
-}
-
-function draw() {
-  background(color("#fff"));
-  nouvelle.x = mouseX;
-  nouvelle.y = mouseY;
-  confettis.rendu();
-  ancienne.x = nouvelle.x;
-  ancienne.y = nouvelle.y;
-}
-
-function windowResized() {
-  resizeCanvas(windowWidth, windowHeight);
-  confettis.position = createVector(width / 2, -40);
-}
-
-function mousePressed() {
-  next = 0;
-  pression = true;
-}
-
-function mouseReleased() {
-  pression = false;
-  confettis.gravite.y = 0.1;
-  confettis.gravite.x = 0;
 }
